@@ -7,11 +7,10 @@ import zio._
 
 object TestContainer {
 
-  val pulsar: ZLayer[Any, Throwable, PulsarContainer] =
-    ZManaged.makeEffect {
-      val c = new PulsarContainer()
-      c.start()
-      c
-    } { container => container.stop() }.toLayer
+  lazy val pulsar: ZLayer[Scope, Throwable, PulsarContainer] =
+    ZLayer(ZIO.acquireRelease {
+      val c = new PulsarContainer("2.8.1")
+      ZIO.attempt(c.start()).as(c)
+    }(container => ZIO.succeed(container.stop())))
 
 }

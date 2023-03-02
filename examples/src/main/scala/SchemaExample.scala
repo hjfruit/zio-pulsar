@@ -1,20 +1,19 @@
 package examples
 
-import zio._
-import zio.pulsar._
-import org.apache.pulsar.client.api.{ PulsarClientException, RegexSubscriptionMode, Schema => JSchema }
-import RegexSubscriptionMode._
+import zio.*
+import zio.pulsar.*
+import org.apache.pulsar.client.api.{ PulsarClientException, RegexSubscriptionMode, Schema as JSchema }
+import RegexSubscriptionMode.*
 import com.sksamuel.avro4s.{ AvroSchema, SchemaFor }
 import zio.json.DeriveJsonCodec
-import zio.pulsar.json._
+import zio.pulsar.json.*
 import zio.json.JsonCodec
+
+import java.io.IOException
 
 case class User(email: String, name: Option[String], age: Int)
 
-object SchemaExample extends App:
-
-  def run(args: List[String]): URIO[ZEnv, ExitCode] =
-    app.provideCustomLayer(pulsarClient).useNow.exitCode
+object SchemaExample extends ZIOAppDefault:
 
   val pulsarClient = PulsarClient.live("localhost", 6650)
 
@@ -22,18 +21,18 @@ object SchemaExample extends App:
 
   given jsonCodec: JsonCodec[User] = DeriveJsonCodec.gen[User]
 
-  val app: ZManaged[PulsarClient, PulsarClientException, Unit] =
+  val app: ZIO[PulsarClient with Scope, IOException, Unit] =
     for
-      builder  <- ConsumerBuilder.make(Schema.jsonSchema[User]).toManaged_
-      consumer <- builder
-                    .topic(topic)
-                    .subscription(
-                      Subscription(
-                        "my-schema-example-subscription", 
-                        SubscriptionType.Shared))
-                    .build
-      producer <- Producer.make(topic, Schema.jsonSchema[User])
-      _        <- producer.send(User("test@test.com", None, 25)).toManaged_
-      m        <- consumer.receive.toManaged_
-      _        = println(m.getValue)
+      builder        <- ConsumerBuilder.make(Schema.jsonSchema[User])
+      consumer       <- builder
+                          .topic(topic)
+                          .subscription(Subscription("my-schema-example-subscription", SubscriptionType.Shared))
+                          .build
+      productBuilder <- ProducerBuilder.make(Schema.jsonSchema[User])
+      producer       <- productBuilder.topic(topic).build
+      _              <- producer.send(User("test@test.com", None, 25))
+      m              <- consumer.receive
+      _              <- Console.printLine(m.getValue)
     yield ()
+
+  override def run = app.provideLayer(pulsarClient ++ Scope.default).exitCode
