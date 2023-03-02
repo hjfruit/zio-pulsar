@@ -1,30 +1,29 @@
 package examples
 
-import zio._
-import zio.pulsar._
-import org.apache.pulsar.client.api.{ PulsarClientException, RegexSubscriptionMode, Schema => JSchema }
-import RegexSubscriptionMode._
+import zio.*
+import zio.pulsar.*
+import org.apache.pulsar.client.api.{ PulsarClientException, RegexSubscriptionMode, Schema as JSchema }
+import RegexSubscriptionMode.*
 
-object SingleMessageExample extends App:
+import java.io.IOException
 
-  def run(args: List[String]): URIO[ZEnv, ExitCode] =
-    app.provideCustomLayer(pulsarClient).useNow.exitCode
+object SingleMessageExample extends ZIOAppDefault:
 
   val pulsarClient = PulsarClient.live("localhost", 6650)
 
-  val topic = "my-topic"
+  val topic = "single-topic"
 
-  val app: ZManaged[PulsarClient, PulsarClientException, Unit] =
+  val app: ZIO[PulsarClient with Scope, IOException, Unit] =
     for
-      builder  <- ConsumerBuilder.make(JSchema.STRING).toManaged_
+      builder  <- ConsumerBuilder.make(JSchema.STRING)
       consumer <- builder
                     .topic(topic)
-                    .subscription(
-                      Subscription(
-                        "my-subscription", 
-                        SubscriptionType.Shared))
+                    .subscription(Subscription("my-subscription", SubscriptionType.Shared))
                     .build
       producer <- Producer.make(topic, JSchema.STRING)
-      _        <- producer.send("Hello!").toManaged_
-      m        <- consumer.receive.toManaged_
+      _        <- producer.send("Hello!")
+      m        <- consumer.receive
+      _        <- Console.printLine(m.getValue)
     yield ()
+
+  override def run = app.provideLayer(pulsarClient ++ Scope.default).exitCode

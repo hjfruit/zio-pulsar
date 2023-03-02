@@ -4,9 +4,9 @@ import org.apache.pulsar.client.api._
 
 @main
 def singleMessageExample =
-  val client = PulsarClient.builder.serviceUrl("pulsar://localhost:6650").build
+  val client   = PulsarClient.builder.serviceUrl("pulsar://localhost:6650").build
   val consumer = client.newConsumer
-    .topic("my-topic")
+    .topic("single-topic")
     .subscriptionName("my-subscription")
     .subscriptionType(SubscriptionType.Exclusive)
     .subscribe
