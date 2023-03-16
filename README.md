@@ -4,7 +4,7 @@
 
 Scala 3
 ```
-libraryDependencies += "fc.xuanwu.star" %% "xuanwu-zio-pulsar" % NewVersion
+libraryDependencies += "fc.xuanwu.star" %% "xuanwu-zio-pulsar" % <latest version>
 ```
 
 Scala 2.13.6+ (sbt 1.5.x)
@@ -21,7 +21,7 @@ libraryDependencies ++= Seq(
 )
 ```
 
-例子：
+例子1：
 ```scala
 object SingleMessageExample extends ZIOAppDefault:
 
@@ -44,4 +44,21 @@ object SingleMessageExample extends ZIOAppDefault:
     yield ()
 
   override def run = app.provideLayer(pulsarClient ++ Scope.default).exitCode
+```
+
+例子2：
+
+> 略微封装，仅适合最基本使用场景
+```scala
+  lazy val consumer = PulsarClientF
+    .consumeF(
+      setting.respTopicName,
+      Subscription(setting.respSubscribeName, Shared)
+        .withInitialPosition(SubscriptionInitialPosition.Earliest)
+    )
+    .mapError(f => f.getCause)
+  consumer.flatMap(_.receive(10, TimeUnit.SECONDS))
+
+  val producer = PulsarClientF.productF(setting.reqTopicName)
+  producer.flatMap(_.send(JacksonUtils.writeValueAsString(req)))
 ```
