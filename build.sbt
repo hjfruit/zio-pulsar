@@ -1,5 +1,5 @@
 val zioVersion    = "2.0.7"
-val pulsarVersion = "2.10.0"
+val pulsarVersion = "2.9.3"
 
 ThisBuild / resolvers += Resolver.mavenLocal
 ThisBuild / resolvers += "fc".at("https://jfrog-artifactory.hjgpscm.com/artifactory/public")

@@ -8,7 +8,7 @@ import org.apache.pulsar.client.api.{
   HashingScheme,
   MessageRoutingMode,
   ProducerCryptoFailureAction,
-  RedeliveryBackoff,
+//  RedeliveryBackoff,
   RegexSubscriptionMode,
   SubscriptionInitialPosition,
   SubscriptionType as JSubscriptionType
@@ -133,9 +133,9 @@ object Property:
 
     final case class replicateSubscriptionState[T <: Boolean](value: T) extends Consumer[T]
 
-    final case class negativeAckRedeliveryBackoff[T <: RedeliveryBackoff](value: T) extends Consumer[T]
+//    final case class negativeAckRedeliveryBackoff[T <: RedeliveryBackoff](value: T) extends Consumer[T]
 
-    final case class ackTimeoutRedeliveryBackoff[T <: RedeliveryBackoff](value: T) extends Consumer[T]
+//    final case class ackTimeoutRedeliveryBackoff[T <: RedeliveryBackoff](value: T) extends Consumer[T]
 
     final case class autoAckOldestChunkedMessageOnQueueFull[T <: Boolean](value: T) extends Consumer[T]
 
