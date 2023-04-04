@@ -25,7 +25,8 @@ libraryDependencies ++= Seq(
 ```scala
 object SingleMessageExample extends ZIOAppDefault:
 
-  val pulsarClient = PulsarClient.live("localhost", 6650)
+  // 注意：不要重复构建本对象，保持一个实例即可！
+  lazy val pulsarClient = PulsarClient.live("localhost", 6650)
   // val pulsarClient = PulsarClient.live(""pulsar://localhost:6650,localhost:6651,localhost:6652"")
 
   val topic = "single-topic"

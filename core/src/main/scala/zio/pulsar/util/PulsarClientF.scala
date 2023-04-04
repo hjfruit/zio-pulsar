@@ -11,9 +11,6 @@ import zio.pulsar.*
  */
 object PulsarClientF:
 
-  def apply(serverUrl: String): ULayer[PulsarClient & Scope] =
-    ZLayer.make[PulsarClient & Scope](Scope.default, PulsarClient.live(serverUrl))
-
   def consumeF[K <: SubscriptionKind, M](
     topic: String,
     subscription: Subscription[K],
