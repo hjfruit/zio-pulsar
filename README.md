@@ -32,7 +32,7 @@ object SingleMessageExample extends ZIOAppDefault:
   val topic = "single-topic"
 
   // 为了避免频繁创建client，client的Scope和consumer/producer的Scope不应该都使用Scope.default
-  // client应该是个长期对象，而consumer/producer是用完即逝，否则导致系统每次都创建client，CPU资源占用很大
+  // client应该是个长期/按需使用的对象，而consumer/producer是用完即逝的
   val app: ZIO[PulsarClient & Scope, PulsarClientException, Unit] =
     for
       builder  <- ConsumerBuilder.make(JSchema.STRING)
