@@ -1,12 +1,14 @@
 package zio.pulsar
 
-import org.apache.pulsar.client.api.{ Consumer as JConsumer, Message, MessageId, PulsarClientException }
-import zio.{ IO, Task, ZIO }
-
 import java.util.concurrent.TimeUnit
+
+import scala.jdk.CollectionConverters.*
+
+import zio.{ IO, Task, ZIO }
 //import zio.blocking._
 import zio.stream.*
-import scala.jdk.CollectionConverters.*
+
+import org.apache.pulsar.client.api.{ Consumer as JConsumer, Message, MessageId, PulsarClientException }
 
 final class Consumer[M](val consumer: JConsumer[M]):
 

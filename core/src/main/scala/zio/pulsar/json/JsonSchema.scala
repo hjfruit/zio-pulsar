@@ -2,13 +2,16 @@ package zio.pulsar.json
 
 import java.nio.charset.StandardCharsets
 
-import com.sksamuel.avro4s.{ AvroSchema, SchemaFor }
+import zio.json._
+
 import org.apache.pulsar.client.api.Schema
 import org.apache.pulsar.client.impl.schema.{ JSONSchema, SchemaInfoImpl }
 import org.apache.pulsar.common.schema.{ SchemaInfo, SchemaType }
-import zio.json._
+
+import com.sksamuel.avro4s.{ AvroSchema, SchemaFor }
 
 object Schema:
+
   def jsonSchema[T](using codec: JsonCodec[T], avroSchema: SchemaFor[T], manifest: Manifest[T]): Schema[T] =
     new Schema[T] {
 

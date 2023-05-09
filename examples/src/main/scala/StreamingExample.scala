@@ -1,11 +1,12 @@
 package examples
 
-import org.apache.pulsar.client.api.{ PulsarClientException, Schema as JSchema }
+import java.io.IOException
+
 import zio.*
 import zio.pulsar.*
 import zio.stream.*
 
-import java.io.IOException
+import org.apache.pulsar.client.api.{ PulsarClientException, Schema as JSchema }
 
 object StreamingExample extends ZIOAppDefault:
 

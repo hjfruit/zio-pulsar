@@ -1,23 +1,24 @@
 package zio.pulsar
 
+import java.time.LocalDate
+import java.util.concurrent.TimeUnit
+
 import zio.*
 import zio.json.*
 import zio.pulsar.json.*
-import zio.test.Assertion.{ assertion, equalTo }
-import zio.test.junit.JUnitRunnableSpec
+import zio.test.*
 import zio.test.{ assertZIOImpl, suite, test }
+import zio.test.Assertion.*
+import zio.test.Assertion.{ assertion, equalTo }
 import zio.test.TestAspect.sequential
+import zio.test.junit.JUnitRunnableSpec
+
 import org.apache.pulsar.client.api.{
   BatchReceivePolicy,
   PulsarClientException,
   RegexSubscriptionMode,
   Schema as JSchema
 }
-import zio.test.Assertion.*
-import zio.test.*
-
-import java.time.LocalDate
-import java.util.concurrent.TimeUnit
 
 object PulsarClientSpec extends PulsarContainerSpec:
 

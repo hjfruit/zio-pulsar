@@ -1,6 +1,14 @@
 package zio.pulsar
 
 import java.util.concurrent.TimeUnit
+import java.util.regex.Pattern
+
+import scala.jdk.CollectionConverters.*
+
+import zio.{ Duration, Scope, ZIO }
+import zio.pulsar.Properties.{ ConsumerProperties, StringProperties }
+import zio.pulsar.Property.StringProperty
+
 import org.apache.pulsar.client.api.{
   BatchReceivePolicy as JBatchReceivePolicy,
   ConsumerBuilder as JConsumerBuilder,
@@ -17,12 +25,6 @@ import org.apache.pulsar.client.api.{
   SubscriptionInitialPosition,
   SubscriptionMode as JSubscriptionMode
 }
-import zio.pulsar.Properties.{ ConsumerProperties, StringProperties }
-import zio.pulsar.Property.StringProperty
-import zio.{ Duration, Scope, ZIO }
-
-import scala.jdk.CollectionConverters.*
-import java.util.regex.Pattern
 
 case class Subscription[K <: SubscriptionKind](
   name: String,
@@ -39,6 +41,7 @@ case class Subscription[K <: SubscriptionKind](
 }
 
 object Subscription:
+
   def apply[K <: SubscriptionKind](
     name: String,
     `type`: SubscriptionType[K],
@@ -63,6 +66,7 @@ end SubscriptionKind
 
 sealed trait SubscriptionType[K <: SubscriptionKind]:
   self =>
+
   def asJava: org.apache.pulsar.client.api.SubscriptionType =
     self match
       case _: SubscriptionType.Exclusive.type => org.apache.pulsar.client.api.SubscriptionType.Exclusive
@@ -94,9 +98,9 @@ final class ConsumerBuilder[T, S <: ConsumerConfigPart, K <: SubscriptionKind, M
   self =>
 
   import ConsumerConfigPart._
+  import RegexSubscriptionMode._
   import SubscriptionKind._
   import SubscriptionMode._
-  import RegexSubscriptionMode._
 
   def loadConf(config: Property.Consumer[_], configs: Property.Consumer[_]*): ConsumerBuilder[T, S, K, M] =
     new ConsumerBuilder(builder.loadConf(ConsumerProperties(config, configs.toList).getConfig.asJava))

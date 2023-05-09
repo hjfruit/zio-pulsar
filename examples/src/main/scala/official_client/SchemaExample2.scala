@@ -1,11 +1,14 @@
-import com.sksamuel.avro4s._
-import org.apache.pulsar.client.impl.schema.JSONSchema
-import org.apache.pulsar.client.api.schema.SchemaDefinition
-import org.apache.pulsar.client.api.schema.SchemaReader
 import java.io.InputStream
 import java.nio.charset.Charset
-import org.apache.pulsar.client.api.schema.SchemaWriter
+
 import zio.json._
+
+import org.apache.pulsar.client.api.schema.SchemaDefinition
+import org.apache.pulsar.client.api.schema.SchemaReader
+import org.apache.pulsar.client.api.schema.SchemaWriter
+import org.apache.pulsar.client.impl.schema.JSONSchema
+
+import com.sksamuel.avro4s._
 
 case class User(email: String, name: Option[String], age: Int)
 
@@ -46,6 +49,7 @@ class JSchemaReader extends SchemaReader[User] {
 // custom Pulsar SchemaWriter
 class JSchemaWriter extends SchemaWriter[User] {
   implicit val encoder: JsonEncoder[User]        = DeriveJsonEncoder.gen[User]
+
   override def write(message: User): Array[Byte] =
     message.toJson.getBytes()
 }

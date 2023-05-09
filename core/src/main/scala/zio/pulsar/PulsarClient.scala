@@ -1,7 +1,8 @@
 package zio.pulsar
 
-import org.apache.pulsar.client.api.{ PulsarClient as JPulsarClient, PulsarClientException }
 import zio.*
+
+import org.apache.pulsar.client.api.{ PulsarClient as JPulsarClient, PulsarClientException }
 
 trait PulsarClient:
   def client: IO[PulsarClientException, JPulsarClient]

@@ -1,9 +1,13 @@
 package examples
 
+import java.io.IOException
+import java.util.regex.Pattern
+
 import zio.*
 import zio.pulsar.*
 import zio.stm.*
 import zio.stream.*
+
 import org.apache.pulsar.client.api.{
   MessageId,
   Producer as JProducer,
@@ -12,9 +16,6 @@ import org.apache.pulsar.client.api.{
   RegexSubscriptionMode,
   Schema as JSchema
 }
-
-import java.io.IOException
-import java.util.regex.Pattern
 
 object FanoutStreamExample extends ZIOAppDefault:
 

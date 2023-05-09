@@ -1,12 +1,13 @@
 package zio.pulsar.admin
 
-import org.apache.pulsar.client.admin.{ PulsarAdmin as JPulsarAdmin, PulsarAdminBuilder as JAdminBuilder }
-import org.apache.pulsar.client.api.{ Authentication, PulsarClientException }
-import zio.pulsar.*
+import scala.jdk.CollectionConverters.*
+
 import zio.*
+import zio.pulsar.*
 import zio.pulsar.admin.AdminConfigPart.{ ConfigComplete, Empty, ServiceUrl }
 
-import scala.jdk.CollectionConverters.*
+import org.apache.pulsar.client.admin.{ PulsarAdmin as JPulsarAdmin, PulsarAdminBuilder as JAdminBuilder }
+import org.apache.pulsar.client.api.{ Authentication, PulsarClientException }
 
 /**
  * @author
@@ -15,6 +16,7 @@ import scala.jdk.CollectionConverters.*
  */
 
 sealed trait AdminConfigPart
+
 object AdminConfigPart:
   sealed trait Empty      extends AdminConfigPart
   sealed trait ServiceUrl extends AdminConfigPart
@@ -43,6 +45,7 @@ final class PulsarAdminClient[S <: AdminConfigPart] private (adminBuilder: JAdmi
 end PulsarAdminClient
 
 object PulsarAdminClient:
+
   def make(serviceHttpUrl: String): Task[PulsarAdminClient[ConfigComplete]] =
     ZIO.attempt(new PulsarAdminClient(JPulsarAdmin.builder().serviceHttpUrl(serviceHttpUrl)))
 

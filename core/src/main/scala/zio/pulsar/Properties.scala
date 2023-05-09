@@ -1,6 +1,12 @@
 package zio.pulsar
 
-import Properties.*
+import java.util.regex.Pattern
+
+import scala.collection.immutable.SortedMap
+import scala.jdk.CollectionConverters.*
+
+import zio.pulsar.Property.Consumer.topicNames
+
 import org.apache.pulsar.client.api.{
   CompressionType,
   ConsumerCryptoFailureAction,
@@ -8,15 +14,12 @@ import org.apache.pulsar.client.api.{
   HashingScheme,
   MessageRoutingMode,
   ProducerCryptoFailureAction,
-//  RedeliveryBackoff,
   RegexSubscriptionMode,
   SubscriptionInitialPosition,
   SubscriptionType as JSubscriptionType
 }
 
-import java.util.regex.Pattern
-import scala.collection.immutable.SortedMap
-import scala.jdk.CollectionConverters.*
+import Properties.*
 
 /**
  * @author
@@ -26,6 +29,7 @@ import scala.jdk.CollectionConverters.*
 private[pulsar] abstract class Properties private (
   private val propertyList: List[Property[_]] = Nil
 ):
+  // format: off
   import Properties.*
   import Property.*
   import Consumer.*
@@ -53,6 +57,7 @@ object Properties:
 
   private[pulsar] final case class ConsumerProperties(c: Consumer[_], cl: List[Consumer[_]]) extends Properties(c :: cl)
   private[pulsar] final case class ProducerProperties(p: Producer[_], pl: List[Producer[_]]) extends Properties(p :: pl)
+
   private[pulsar] final case class StringProperties(s: StringProperty, sl: List[StringProperty])
       extends Properties(s :: sl)
 
@@ -68,6 +73,7 @@ sealed trait Property[+T]:
 end Property
 
 object Property:
+
   final case class StringProperty(key: String, value: String) extends Property[String] {
     override def _key: Option[String] = Option(key)
   }

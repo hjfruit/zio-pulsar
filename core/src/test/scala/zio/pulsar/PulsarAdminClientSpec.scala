@@ -1,6 +1,22 @@
 package zio.pulsar
 
-import com.dimafeng.testcontainers.PulsarContainer
+import java.time.LocalDate
+import java.util
+
+import scala.jdk.CollectionConverters.*
+
+import zio.*
+import zio.json.*
+import zio.pulsar.PulsarAdminClientSpec.MockAuthenticationSecret
+import zio.pulsar.PulsarClientSpec.Order
+import zio.pulsar.admin.{ AdminConfigPart, PulsarAdminClient }
+import zio.pulsar.admin.AdminConfigPart.ConfigComplete
+import zio.pulsar.json.*
+import zio.test.*
+import zio.test.Assertion.*
+import zio.test.TestAspect.sequential
+import zio.test.junit.JUnitRunnableSpec
+
 import org.apache.pulsar.client.api.{
   Authentication,
   AuthenticationDataProvider,
@@ -9,21 +25,8 @@ import org.apache.pulsar.client.api.{
   RegexSubscriptionMode,
   Schema as JSchema
 }
-import zio.*
-import zio.json.*
-import zio.pulsar.PulsarClientSpec.Order
-import zio.pulsar.PulsarAdminClientSpec.MockAuthenticationSecret
-import zio.pulsar.admin.{ AdminConfigPart, PulsarAdminClient }
-import zio.pulsar.admin.AdminConfigPart.ConfigComplete
-import zio.pulsar.json.*
-import zio.test.Assertion.*
-import zio.test.TestAspect.sequential
-import zio.test.junit.JUnitRunnableSpec
-import zio.test.*
 
-import scala.jdk.CollectionConverters.*
-import java.time.LocalDate
-import java.util
+import com.dimafeng.testcontainers.PulsarContainer
 
 object PulsarAdminClientSpec extends ZIOSpecDefault:
 

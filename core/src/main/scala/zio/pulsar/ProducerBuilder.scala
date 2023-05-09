@@ -1,6 +1,15 @@
 package zio.pulsar
 
-import org.apache.pulsar.client.api.interceptor.ProducerInterceptor
+import java.util.concurrent.TimeUnit
+
+import scala.jdk.CollectionConverters.*
+
+import zio.{ Scope, ZIO }
+import zio.pulsar.ProducerConfigPart.*
+import zio.pulsar.Properties.*
+import zio.pulsar.Properties.StringProperties
+import zio.pulsar.Property.StringProperty
+
 import org.apache.pulsar.client.api.{
   CompressionType,
   MessageRoutingMode,
@@ -9,14 +18,7 @@ import org.apache.pulsar.client.api.{
   PulsarClientException,
   Schema
 }
-import zio.pulsar.ProducerConfigPart.*
-import zio.pulsar.Properties.*
-import zio.pulsar.Properties.StringProperties
-import zio.pulsar.Property.StringProperty
-import zio.{ Scope, ZIO }
-
-import scala.jdk.CollectionConverters.*
-import java.util.concurrent.TimeUnit
+import org.apache.pulsar.client.api.interceptor.ProducerInterceptor
 
 /**
  * @author
@@ -35,6 +37,7 @@ sealed trait ProducerConfigPart
 final class ProducerBuilder[T, S <: ProducerConfigPart] private (
   builder: JProducerBuilder[T]
 ):
+
   def topic(topic: String): ProducerBuilder[T, S with ToTopic] =
     new ProducerBuilder(builder.topic(topic))
 

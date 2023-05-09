@@ -1,15 +1,18 @@
 package examples
 
-import zio.*
-import zio.pulsar.*
-import org.apache.pulsar.client.api.{ PulsarClientException, RegexSubscriptionMode, Schema as JSchema }
-import RegexSubscriptionMode.*
-import com.sksamuel.avro4s.{ AvroSchema, SchemaFor }
-import zio.json.DeriveJsonCodec
-import zio.pulsar.json.*
-import zio.json.JsonCodec
-
 import java.io.IOException
+
+import zio.*
+import zio.json.DeriveJsonCodec
+import zio.json.JsonCodec
+import zio.pulsar.*
+import zio.pulsar.json.*
+
+import org.apache.pulsar.client.api.{ PulsarClientException, RegexSubscriptionMode, Schema as JSchema }
+
+import com.sksamuel.avro4s.{ AvroSchema, SchemaFor }
+
+import RegexSubscriptionMode.*
 
 case class User(email: String, name: Option[String], age: Int)
 

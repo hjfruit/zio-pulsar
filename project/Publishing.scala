@@ -1,7 +1,8 @@
-import sbt.Keys._
 import sbt._
+import sbt.Keys._
 
 object Publishing {
+
   lazy val publishing = Seq(
     publishTo        := (if (version.value.endsWith("SNAPSHOT"))
                     Some(

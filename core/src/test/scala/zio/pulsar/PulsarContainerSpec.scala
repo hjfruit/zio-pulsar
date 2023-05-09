@@ -1,11 +1,12 @@
 package zio.pulsar
 
-import org.apache.pulsar.client.api.PulsarClientException
+import java.util.Properties
+
 import zio.{ Scope, ZLayer }
 import zio.test.*
-
-import java.util.Properties
 import zio.test.ZIOSpecDefault
+
+import org.apache.pulsar.client.api.PulsarClientException
 
 trait PulsarContainerSpec extends ZIOSpecDefault {
 

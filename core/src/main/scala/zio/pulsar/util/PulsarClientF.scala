@@ -1,8 +1,9 @@
 package zio.pulsar.util
 
-import org.apache.pulsar.client.api.{ PulsarClientException, Schema }
 import zio.*
 import zio.pulsar.*
+
+import org.apache.pulsar.client.api.{ PulsarClientException, Schema }
 
 /**
  * @author

@@ -1,8 +1,9 @@
 package zio.pulsar
 
-import org.apache.pulsar.client.api.{ MessageId, Producer as JProducer, PulsarClientException, Schema }
 import zio.{ IO, Scope, ZIO }
 import zio.stream.{ Sink, ZSink }
+
+import org.apache.pulsar.client.api.{ MessageId, Producer as JProducer, PulsarClientException, Schema }
 
 final class Producer[M](val producer: JProducer[M]):
 

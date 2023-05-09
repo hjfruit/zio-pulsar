@@ -1,9 +1,10 @@
-import org.apache.pulsar.client.api.RegexSubscriptionMode.*
-import org.apache.pulsar.client.api.{ PulsarClientException, RegexSubscriptionMode, Schema as JSchema }
+import java.io.IOException
+
 import zio.*
 import zio.pulsar.*
 
-import java.io.IOException
+import org.apache.pulsar.client.api.{ PulsarClientException, RegexSubscriptionMode, Schema as JSchema }
+import org.apache.pulsar.client.api.RegexSubscriptionMode.*
 
 object PropertiesExample extends ZIOAppDefault:
 

@@ -1,11 +1,13 @@
 package examples
 
+import java.io.IOException
+
 import zio.*
 import zio.pulsar.*
-import org.apache.pulsar.client.api.{ PulsarClientException, RegexSubscriptionMode, Schema as JSchema }
-import RegexSubscriptionMode.*
 
-import java.io.IOException
+import org.apache.pulsar.client.api.{ PulsarClientException, RegexSubscriptionMode, Schema as JSchema }
+
+import RegexSubscriptionMode.*
 
 object SingleMessageExample extends ZIOAppDefault:
 
