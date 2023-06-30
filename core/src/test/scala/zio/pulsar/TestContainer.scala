@@ -11,7 +11,7 @@ object TestContainer {
 
   lazy val pulsar: ZLayer[Scope, Throwable, PulsarContainer] =
     ZLayer(ZIO.acquireRelease {
-      val c = new PulsarContainer("2.8.1")
+      val c = new PulsarContainer("2.9.3")
       ZIO.attempt(c.start()).as(c)
     }(container => ZIO.succeed(container.stop())))
 

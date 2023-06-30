@@ -25,7 +25,7 @@ services:
     command: [ "./manager_setup.sh" ]
   
   pulsar:
-    image: apachepulsar/pulsar:2.8.1
+    image: apachepulsar/pulsar:2.9.3
     ports:
       - "6650:6650"
       - "8080:8080"
