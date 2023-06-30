@@ -51,12 +51,12 @@ object PulsarClientSpec extends PulsarContainerSpec:
       val topic                         = "my-test-topic-2"
       val message                       = Order("test item", 10.5, 5, Some("test description"), None, LocalDate.of(2000, 1, 1))
       for
-        builder        <- ConsumerBuilder.make(Schema.jsonSchema[Order])
+        builder        <- ConsumerBuilder.make(JsonSchema.jsonSchema[Order])
         consumer       <- builder
                             .topic(topic)
                             .subscription(Subscription("my-test-subscription-2", SubscriptionType.Exclusive))
                             .build
-        productBuilder <- ProducerBuilder.make(Schema.jsonSchema[Order])
+        productBuilder <- ProducerBuilder.make(JsonSchema.jsonSchema[Order])
         producer       <- productBuilder.topic(topic).build
         _              <- producer.send(message)
         m              <- consumer.receive
@@ -69,7 +69,7 @@ object PulsarClientSpec extends PulsarContainerSpec:
       val topic   = "my-test-topic-3"
       val message = Order("test item", 10.5, 5, Some("test description"), None, LocalDate.of(2000, 1, 1))
       for
-        builder        <- ConsumerBuilder.make(Schema.jsonSchema[Order])
+        builder        <- ConsumerBuilder.make(JsonSchema.jsonSchema[Order])
         consumer       <- builder
                             .topic(topic)
                             .batchReceivePolicy(
@@ -82,7 +82,7 @@ object PulsarClientSpec extends PulsarContainerSpec:
                             )
                             .subscription(Subscription("my-test-subscription-3", SubscriptionType.Exclusive))
                             .build
-        productBuilder <- ProducerBuilder.make(Schema.jsonSchema[Order])
+        productBuilder <- ProducerBuilder.make(JsonSchema.jsonSchema[Order])
         producer       <- productBuilder.topic(topic).build
         _              <- ZIO.foreach(0 to 10)(_ => producer.send(message))
         ms             <- consumer.batchReceive
@@ -94,7 +94,7 @@ object PulsarClientSpec extends PulsarContainerSpec:
       val topic   = "my-test-topic-4"
       val message = Order("test item", 10.5, 5, Some("test description"), None, LocalDate.of(2000, 1, 1))
       for
-        builder        <- ConsumerBuilder.make(Schema.jsonSchema[Order])
+        builder        <- ConsumerBuilder.make(JsonSchema.jsonSchema[Order])
         consumer       <- builder
                             .topic(topic)
                             .batchReceivePolicy(
@@ -107,7 +107,7 @@ object PulsarClientSpec extends PulsarContainerSpec:
                             )
                             .subscription(Subscription("my-test-subscription-4", SubscriptionType.Exclusive))
                             .build
-        productBuilder <- ProducerBuilder.make(Schema.jsonSchema[Order])
+        productBuilder <- ProducerBuilder.make(JsonSchema.jsonSchema[Order])
         producer       <- productBuilder.topic(topic).build
         _              <- ZIO.foreach(0 to 10)(_ => producer.send(message))
         ms             <- consumer.batchReceiveStream.runCollect

@@ -51,14 +51,14 @@ object PulsarAdminClientSpec extends ZIOSpecDefault:
                   .flatMap(
                     _.authentication(
                       classOf[MockAuthenticationSecret].getName,
-                      new String(Schema.jsonSchema[User].encode(User("apachepulsar")))
+                      new String(JsonSchema.jsonSchema[User].encode(User("apachepulsar")))
                     ).build
                   )
           m2 <- makeContainer2
                   .flatMap(
                     _.authentication(
                       classOf[MockAuthenticationSecret].getName,
-                      new String(Schema.jsonSchema[User].encode(User("apachepulsar")))
+                      new String(JsonSchema.jsonSchema[User].encode(User("apachepulsar")))
                     ).build
                   )
         yield assertTrue(m1.getServiceUrl != null) && assertTrue(m2.getServiceUrl != null)
@@ -72,7 +72,7 @@ object PulsarAdminClientSpec extends ZIOSpecDefault:
     def getAuthMethodName = "mock-secret"
 
     def configure(encodedAuthParamString: String): Unit =
-      secret = Schema
+      secret = JsonSchema
         .jsonSchema[Map[String, String]]
         .decode(encodedAuthParamString.getBytes)
         .getOrElse("secret", "secret")
@@ -84,7 +84,7 @@ object PulsarAdminClientSpec extends ZIOSpecDefault:
     override def configure(authParams: util.Map[String, String]): Unit =
       configure(
         new String(
-          Schema.jsonSchema[Map[String, String]].encode(authParams.asScala.toMap)
+          JsonSchema.jsonSchema[Map[String, String]].encode(authParams.asScala.toMap)
         )
       )
   }

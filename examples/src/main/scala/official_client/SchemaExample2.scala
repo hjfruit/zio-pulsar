@@ -48,7 +48,7 @@ class JSchemaReader extends SchemaReader[User] {
 
 // custom Pulsar SchemaWriter
 class JSchemaWriter extends SchemaWriter[User] {
-  implicit val encoder: JsonEncoder[User]        = DeriveJsonEncoder.gen[User]
+  implicit val encoder: JsonEncoder[User] = DeriveJsonEncoder.gen[User]
 
   override def write(message: User): Array[Byte] =
     message.toJson.getBytes()

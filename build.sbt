@@ -1,4 +1,4 @@
-val zioVersion    = "2.0.7"
+val zioVersion    = "2.0.13"
 val pulsarVersion = "2.9.3"
 
 ThisBuild / resolvers += Resolver.mavenLocal
@@ -7,7 +7,7 @@ ThisBuild / resolvers += "sonatype snaphots" at "https://oss.sonatype.org/conten
 
 inThisBuild(
   List(
-    scalaVersion := "3.2.0"
+    scalaVersion := "3.2.2"
   )
 )
 
@@ -21,7 +21,7 @@ lazy val core = project
     libraryDependencies ++= Seq(
       "dev.zio"             %% "zio"                         % zioVersion    % Provided,
       "dev.zio"             %% "zio-streams"                 % zioVersion    % Provided,
-      "dev.zio"             %% "zio-json"                    % "0.4.2"       % Provided,
+      "dev.zio"             %% "zio-json"                    % "0.5.0"       % Provided,
       "com.sksamuel.avro4s" %% "avro4s-core"                 % "5.0.3",
       "org.apache.pulsar"    % "pulsar-client"               % pulsarVersion,
       "ch.qos.logback"       % "logback-classic"             % "1.4.5",
@@ -47,7 +47,7 @@ lazy val examples = project
       // "dev.zio" %% "zio-logging" % "0.5.6",
       "dev.zio"             %% "zio"             % zioVersion,
       "dev.zio"             %% "zio-streams"     % zioVersion,
-      "dev.zio"             %% "zio-json"        % "0.4.2",
+      "dev.zio"             %% "zio-json"        % "0.5.0",
       "com.sksamuel.avro4s" %% "avro4s-core"     % "5.0.3",
       "ch.qos.logback"       % "logback-classic" % "1.4.5"
     )

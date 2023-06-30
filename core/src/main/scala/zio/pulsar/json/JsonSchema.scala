@@ -2,7 +2,9 @@ package zio.pulsar.json
 
 import java.nio.charset.StandardCharsets
 
-import zio.json._
+import scala.reflect.*
+
+import zio.json.*
 
 import org.apache.pulsar.client.api.Schema
 import org.apache.pulsar.client.impl.schema.{ JSONSchema, SchemaInfoImpl }
@@ -10,9 +12,9 @@ import org.apache.pulsar.common.schema.{ SchemaInfo, SchemaType }
 
 import com.sksamuel.avro4s.{ AvroSchema, SchemaFor }
 
-object Schema:
+object JsonSchema:
 
-  def jsonSchema[T](using codec: JsonCodec[T], avroSchema: SchemaFor[T], manifest: Manifest[T]): Schema[T] =
+  def jsonSchema[T: ClassTag](using codec: JsonCodec[T], avroSchema: SchemaFor[T]): Schema[T] =
     new Schema[T] {
 
       override def clone(): Schema[T] = this
@@ -28,7 +30,7 @@ object Schema:
 
       override def getSchemaInfo: SchemaInfo =
         SchemaInfoImpl.builder
-          .name(manifest.runtimeClass.getCanonicalName)
+          .name(classTag[T].runtimeClass.getCanonicalName)
           .`type`(SchemaType.JSON)
           .schema(s.toString.getBytes(StandardCharsets.UTF_8))
           .build
