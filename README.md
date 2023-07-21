@@ -8,7 +8,7 @@ ZIO Pulsar
 [Badge-Snapshots]: https://img.shields.io/nexus/s/fc.xuanwu.star/zio-pulsar_3?server=https%3A%2F%2Fs01.oss.sonatype.org
 [Link-Snapshots]: https://s01.oss.sonatype.org/content/repositories/snapshots/fc/xuanwu/star/zio-pulsar_3
 
-## 添加依赖
+## Dependency
 
 Scala 3
 ```
@@ -21,7 +21,7 @@ libraryDependencies +=
   ("fc.xuanwu.star" %% "xuanwu-zio-pulsar" % NewVersion).cross(CrossVersion.for2_13Use3)
 ```
 
-项目类路径中需要这些依赖（ZIO项目只需要注意得有没有导入streams）：
+These dependencies are required in the project classpath (ZIO projects only need to pay attention to whether they have imported zio-streams):
 ```
 libraryDependencies ++= Seq(
   "dev.zio" %% "zio"         % zioVersion,
@@ -29,18 +29,18 @@ libraryDependencies ++= Seq(
 )
 ```
 
-## 例子1
+## Example1
 ```scala
 object SingleMessageExample extends ZIOAppDefault:
 
-  // 注意：不要重复构建本对象，保持一个实例即可！
+  // Note: Do not duplicate the construction of this object, just keep one instance!
   lazy val pulsarClient = PulsarClient.live("localhost", 6650)
   // val pulsarClient = PulsarClient.live(""pulsar://localhost:6650,localhost:6651,localhost:6652"")
 
   val topic = "single-topic"
 
-  // 为了避免频繁创建client，client的Scope和consumer/producer的Scope不应该都使用Scope.default
-  // client应该是个长期/按需使用的对象，而consumer/producer是用完即逝的
+  // To avoid frequent client creation, both the client's scope and the consumer/producer's scope should not use Scope.default
+  // The client should be a long-term/on-demand object, while the consumer/producer is perishable after use
   val app: ZIO[PulsarClient & Scope, PulsarClientException, Unit] =
     for
       builder  <- ConsumerBuilder.make(JSchema.STRING)
@@ -57,9 +57,9 @@ object SingleMessageExample extends ZIOAppDefault:
   override def run = app.provideLayer(pulsarClient ++ Scope.default).exitCode
 ```
 
-## 例子2
+## Example2
 
-> 略微封装，仅适合最基本使用场景
+> utility methods
 ```scala
   lazy val consumer = PulsarClientF
     .consumeF(
