@@ -1,13 +1,38 @@
 val zioVersion    = "2.0.13"
 val pulsarVersion = "2.9.3"
+val scala3Version = "3.2.2"
 
 ThisBuild / resolvers += Resolver.mavenLocal
 ThisBuild / resolvers += "fc".at("https://jfrog-artifactory.hjgpscm.com/artifactory/public")
-ThisBuild / resolvers += "sonatype snaphots" at "https://oss.sonatype.org/content/repositories/snapshots/"
+ThisBuild / resolvers += "sonatype snapshots" at "https://oss.sonatype.org/content/repositories/snapshots/"
 
 inThisBuild(
   List(
-    scalaVersion := "3.2.2"
+    publishTo        := (if (version.value.endsWith("SNAPSHOT"))
+                    Some(
+                      "hjgpscm-public".at(
+                        "https://jfrog-artifactory.hjgpscm.com/artifactory/public;build.timestamp=" + new java.util.Date().getTime
+                      )
+                    )
+                  else Some("hjgpscm-public".at("https://jfrog-artifactory.hjgpscm.com/artifactory/public"))),
+    homepage         := Some(url("https://github.com/jczuchnowski/zio-pulsar/")),
+    licenses         := List("BSD 2-Clause" -> url("https://opensource.org/licenses/BSD-2-Clause")),
+    organization     := "fc.xuanwu.star",
+    organizationName := "FC Xuanwu",
+    developers       := List(
+      Developer(
+        "jczuchnowski",
+        "Jakub Czuchnowski",
+        "jakub.czuchnowski@gmail.com",
+        url("https://github.com/jczuchnowski")
+      ),
+      Developer(
+        id = "jxnu-liguobin",
+        name = "梦境迷离",
+        email = "dreamylost@outlook.com",
+        url = url("https://github.com/jxnu-liguobin")
+      )
+    )
   )
 )
 
@@ -36,7 +61,6 @@ lazy val core = project
     ),
     testFrameworks := Seq(new TestFramework("zio.test.sbt.ZTestFramework"))
   )
-  .settings(Publishing.publishing)
 
 lazy val examples = project
   .in(file("examples"))

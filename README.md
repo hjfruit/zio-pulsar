@@ -1,7 +1,14 @@
 ZIO Pulsar
 ---
 
-添加依赖：
+![CI][Badge-CI] [![rolls-compiler-plugin Scala version support][ScalaIndex-Releases]][ScalaIndex-Link] [![Nexus (Snapshots)][Badge-Snapshots]][Link-Snapshots]
+
+
+[Badge-CI]: https://github.com/bitlap/rolls/actions/workflows/ScalaCI.yml/badge.svg
+[Badge-Snapshots]: https://img.shields.io/nexus/s/org.bitlap/rolls-compiler-plugin_3?server=https%3A%2F%2Fs01.oss.sonatype.org
+[Link-Snapshots]: https://s01.oss.sonatype.org/content/repositories/snapshots/org/bitlap/rolls-compiler-plugin_3
+
+## 添加依赖
 
 Scala 3
 ```
@@ -22,7 +29,7 @@ libraryDependencies ++= Seq(
 )
 ```
 
-例子1：
+## 例子1
 ```scala
 object SingleMessageExample extends ZIOAppDefault:
 
@@ -50,7 +57,7 @@ object SingleMessageExample extends ZIOAppDefault:
   override def run = app.provideLayer(pulsarClient ++ Scope.default).exitCode
 ```
 
-例子2：
+## 例子2
 
 > 略微封装，仅适合最基本使用场景
 ```scala
