@@ -1,12 +1,11 @@
 ZIO Pulsar
 ---
 
-![CI][Badge-CI] [![rolls-compiler-plugin Scala version support][ScalaIndex-Releases]][ScalaIndex-Link] [![Nexus (Snapshots)][Badge-Snapshots]][Link-Snapshots]
+![CI][Badge-CI] [![Nexus (Snapshots)][Badge-Snapshots]][Link-Snapshots]
 
 
-[Badge-CI]: https://github.com/bitlap/rolls/actions/workflows/ScalaCI.yml/badge.svg
-[Badge-Snapshots]: https://img.shields.io/nexus/s/org.bitlap/rolls-compiler-plugin_3?server=https%3A%2F%2Fs01.oss.sonatype.org
-[Link-Snapshots]: https://s01.oss.sonatype.org/content/repositories/snapshots/org/bitlap/rolls-compiler-plugin_3
+[Badge-CI]: https://github.com/hjfruit/zio-pulsar/actions/workflows/scala.yml/badge.svg
+[Badge-Snapshots]: https://img.shields.io/nexus/s/fc.xuanwu.star/zio-pulsar_3?server=https%3A%2F%2Fs01.oss.sonatype.org
 
 ## 添加依赖
 

@@ -2,7 +2,6 @@ val zioVersion    = "2.0.13"
 val pulsarVersion = "2.9.3"
 val scala3Version = "3.2.2"
 
-ThisBuild / resolvers += Resolver.mavenLocal
 ThisBuild / resolvers += "fc".at("https://jfrog-artifactory.hjgpscm.com/artifactory/public")
 ThisBuild / resolvers += "sonatype snapshots" at "https://oss.sonatype.org/content/repositories/snapshots/"
 
