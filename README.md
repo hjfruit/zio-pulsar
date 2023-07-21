@@ -6,6 +6,7 @@ ZIO Pulsar
 
 [Badge-CI]: https://github.com/hjfruit/zio-pulsar/actions/workflows/scala.yml/badge.svg
 [Badge-Snapshots]: https://img.shields.io/nexus/s/fc.xuanwu.star/zio-pulsar_3?server=https%3A%2F%2Fs01.oss.sonatype.org
+[Link-Snapshots]: https://s01.oss.sonatype.org/content/repositories/snapshots/fc/xuanwu/star/zio-pulsar_3
 
 ## 添加依赖
 

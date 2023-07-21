@@ -8,13 +8,6 @@ ThisBuild / resolvers += "sonatype snapshots" at "https://oss.sonatype.org/conte
 inThisBuild(
   List(
     scalaVersion     := scala3Version,
-    publishTo        := (if (version.value.endsWith("SNAPSHOT"))
-                    Some(
-                      "hjgpscm-public".at(
-                        "https://jfrog-artifactory.hjgpscm.com/artifactory/public;build.timestamp=" + new java.util.Date().getTime
-                      )
-                    )
-                  else Some("hjgpscm-public".at("https://jfrog-artifactory.hjgpscm.com/artifactory/public"))),
     homepage         := Some(url("https://github.com/jczuchnowski/zio-pulsar/")),
     licenses         := List("BSD 2-Clause" -> url("https://opensource.org/licenses/BSD-2-Clause")),
     organization     := "fc.xuanwu.star",
