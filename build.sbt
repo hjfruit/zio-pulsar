@@ -7,6 +7,7 @@ ThisBuild / resolvers += "sonatype snapshots" at "https://oss.sonatype.org/conte
 
 inThisBuild(
   List(
+    scalaVersion     := scala3Version,
     publishTo        := (if (version.value.endsWith("SNAPSHOT"))
                     Some(
                       "hjgpscm-public".at(
