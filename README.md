@@ -5,20 +5,20 @@ ZIO Pulsar
 
 
 [Badge-CI]: https://github.com/hjfruit/zio-pulsar/actions/workflows/scala.yml/badge.svg
-[Badge-Snapshots]: https://img.shields.io/nexus/s/fc.xuanwu.star/zio-pulsar_3?server=https%3A%2F%2Fs01.oss.sonatype.org
-[Link-Snapshots]: https://s01.oss.sonatype.org/content/repositories/snapshots/fc/xuanwu/star/zio-pulsar_3
+[Badge-Snapshots]: https://img.shields.io/nexus/s/io.github.jxnu-liguobin/zio-pulsar_3?server=https%3A%2F%2Foss.sonatype.org
+[Link-Snapshots]: https://oss.sonatype.org/content/repositories/snapshots/io/github/jxnu-liguobin/zio-pulsar_3
 
 ## Dependency
 
 Scala 3
 ```
-libraryDependencies += "fc.xuanwu.star" %% "xuanwu-zio-pulsar" % <latest version>
+libraryDependencies += "io.github.jxnu-liguobin" %% "zio-pulsar" % <latest version>
 ```
 
 Scala 2.13.6+ (sbt 1.5.x)
 ```
 libraryDependencies += 
-  ("fc.xuanwu.star" %% "xuanwu-zio-pulsar" % NewVersion).cross(CrossVersion.for2_13Use3)
+  ("io.github.jxnu-liguobin" %% "zio-pulsar" % NewVersion).cross(CrossVersion.for2_13Use3)
 ```
 
 These dependencies are required in the project classpath (ZIO projects only need to pay attention to whether they have imported zio-streams):

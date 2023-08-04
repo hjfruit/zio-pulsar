@@ -7,7 +7,7 @@ inThisBuild(
     scalaVersion     := scala3Version,
     homepage         := Some(url("https://github.com/jczuchnowski/zio-pulsar/")),
     licenses         := List("BSD 2-Clause" -> url("https://opensource.org/licenses/BSD-2-Clause")),
-    organization     := "fc.xuanwu.star",
+    organization     := "io.github.jxnu-liguobin",
     organizationName := "FC Xuanwu",
     developers       := List(
       Developer(
