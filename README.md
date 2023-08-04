@@ -1,12 +1,14 @@
 ZIO Pulsar
 ---
 
-![CI][Badge-CI] [![Nexus (Snapshots)][Badge-Snapshots]][Link-Snapshots]
+![CI][Badge-CI] [![Nexus (Snapshots)][Badge-Snapshots]][Link-Snapshots] ![Sonatype Nexus (Releases)][Badge-Release]
 
 
 [Badge-CI]: https://github.com/hjfruit/zio-pulsar/actions/workflows/scala.yml/badge.svg
 [Badge-Snapshots]: https://img.shields.io/nexus/s/io.github.jxnu-liguobin/zio-pulsar_3?server=https%3A%2F%2Foss.sonatype.org
-[Link-Snapshots]: https://oss.sonatype.org/content/repositories/snapshots/io/github/jxnu-liguobin/zio-pulsar_3
+[Link-Snapshots]: https://oss.sonatype.org/content/repositories/snapshots/io/github/jxnu-liguobin/zio-pulsar_3/
+[Badge-Release]: https://img.shields.io/nexus/r/io.github.jxnu/zio-pulsar_3?server=https%3A%2F%2Foss.sonatype.org
+
 
 ## Dependency
 
