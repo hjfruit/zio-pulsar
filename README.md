@@ -59,20 +59,3 @@ object SingleMessageExample extends ZIOAppDefault:
 
   override def run = app.provideLayer(pulsarClient ++ Scope.default).exitCode
 ```
-
-## Example2
-
-> utility methods
-```scala
-  lazy val consumer = PulsarClientF
-    .consumeF(
-      setting.respTopicName,
-      Subscription(setting.respSubscribeName, Shared)
-        .withInitialPosition(SubscriptionInitialPosition.Earliest)
-    )
-    .mapError(f => f.getCause)
-  consumer.flatMap(_.receive(10, TimeUnit.SECONDS))
-
-  val producer = PulsarClientF.productF(setting.reqTopicName)
-  producer.flatMap(_.send(JacksonUtils.writeValueAsString(req)))
-```
