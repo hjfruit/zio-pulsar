@@ -32,6 +32,20 @@ object PulsarClientSpec extends PulsarContainerSpec:
   )
 
   def specLayered: Spec[PulsarEnvironment, PulsarClientException] = suite("PulsarClient")(
+    test("send and receiveTimeout String message") {
+      val topic = "my-test-topic-withTimeout"
+      for
+        builder        <- ConsumerBuilder.make(JSchema.STRING)
+        consumer       <- builder
+                            .topic(topic)
+                            .subscription(Subscription("my-test-subscription", SubscriptionType.Exclusive))
+                            .build
+        productBuilder <- ProducerBuilder.make(JSchema.STRING)
+        producer       <- productBuilder.topic(topic).build
+        _              <- ZIO.foreachDiscard(0 to 10)(_ => producer.send("Hello!"))
+        m              <- ZIO.foreach(0 to 10)(_ => consumer.receive(10, TimeUnit.SECONDS))
+      yield assertTrue(m.size == 11)
+    },
     test("send and receive String message") {
       val topic = "my-test-topic"
       for

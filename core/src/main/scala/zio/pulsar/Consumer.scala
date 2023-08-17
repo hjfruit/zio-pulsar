@@ -4,7 +4,7 @@ import java.util.concurrent.TimeUnit
 
 import scala.jdk.CollectionConverters.*
 
-import zio.{ IO, Task, ZIO }
+import zio.*
 //import zio.blocking._
 import zio.stream.*
 
@@ -28,7 +28,7 @@ final class Consumer[M](val consumer: JConsumer[M]):
     ZIO.attempt(consumer.receive).refineToOrDie[PulsarClientException]
 
   def receive(timeout: Int, unit: TimeUnit): IO[PulsarClientException, Message[M]] =
-    ZIO.attempt(consumer.receive(timeout, unit)).refineToOrDie[PulsarClientException]
+    ZIO.attemptBlocking(consumer.receive(timeout, unit)).refineToOrDie[PulsarClientException]
 
   val receiveAsync: IO[PulsarClientException, Message[M]] =
     ZIO.fromCompletionStage(consumer.receiveAsync).refineToOrDie[PulsarClientException]
