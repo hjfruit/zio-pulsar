@@ -28,7 +28,13 @@ final class Consumer[M](val consumer: JConsumer[M]):
     ZIO.attempt(consumer.receive).refineToOrDie[PulsarClientException]
 
   def receive(timeout: Int, unit: TimeUnit): IO[PulsarClientException, Message[M]] =
-    ZIO.attemptBlocking(consumer.receive(timeout, unit)).refineToOrDie[PulsarClientException]
+    try {
+      val ret = consumer.receive(timeout, unit)
+      ZIO.succeed(ret)
+    } catch {
+      case e: PulsarClientException => ZIO.fail(e)
+      case e                        => throw e
+    }
 
   val receiveAsync: IO[PulsarClientException, Message[M]] =
     ZIO.fromCompletionStage(consumer.receiveAsync).refineToOrDie[PulsarClientException]
