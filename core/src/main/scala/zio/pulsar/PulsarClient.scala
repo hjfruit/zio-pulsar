@@ -1,5 +1,7 @@
 package zio.pulsar
 
+import scala.jdk.CollectionConverters.*
+
 import zio.*
 
 import org.apache.pulsar.client.api.{ PulsarClient as JPulsarClient, PulsarClientException }
@@ -10,8 +12,8 @@ end PulsarClient
 
 object PulsarClient:
 
-  def live(url: String): URLayer[Scope, PulsarClient] =
-    val builder = JPulsarClient.builder().serviceUrl(url)
+  def live(url: String, config: Map[String, Any] = Map.empty): URLayer[Scope, PulsarClient] =
+    val builder = JPulsarClient.builder().serviceUrl(url).loadConf(config.asJava)
 
     val cl = new PulsarClient {
       val client = ZIO.attempt(builder.build).refineToOrDie[PulsarClientException]
