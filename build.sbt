@@ -1,6 +1,6 @@
 val zioVersion    = "2.0.13"
-val pulsarVersion = "2.9.3"
-val scala3Version = "3.2.2"
+val pulsarVersion = "2.11.0"
+val scala3Version = "3.3.1"
 
 inThisBuild(
   List(
@@ -44,8 +44,8 @@ lazy val core = project
       "dev.zio"             %% "zio-test-sbt"                % zioVersion    % Test,
       "dev.zio"             %% "zio-test-junit"              % zioVersion    % Test,
       "dev.zio"             %% "zio-test-magnolia"           % zioVersion    % Test,
-      "org.testcontainers"   % "pulsar"                      % "1.17.5"      % Test,
-      "com.dimafeng"        %% "testcontainers-scala-pulsar" % "0.40.12"     % Test,
+      "org.testcontainers"   % "pulsar"                      % "1.17.6"      % Test,
+      "com.dimafeng"        %% "testcontainers-scala-pulsar" % "0.40.17"     % Test,
       "org.apache.pulsar"    % "pulsar-client-admin-api"     % pulsarVersion % Test,
       "org.apache.pulsar"    % "pulsar-client-admin"         % pulsarVersion % Test
     ),

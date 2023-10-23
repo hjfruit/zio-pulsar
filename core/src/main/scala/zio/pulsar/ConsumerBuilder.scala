@@ -29,15 +29,15 @@ import org.apache.pulsar.client.api.{
 case class Subscription[K <: SubscriptionKind](
   name: String,
   `type`: SubscriptionType[K],
-  initialPosition: Option[SubscriptionInitialPosition] = None
-//  properties: Map[String, String] = Map.empty
+  initialPosition: Option[SubscriptionInitialPosition] = None,
+  properties: Map[String, String] = Map.empty
 ) { self =>
 
   def withInitialPosition(initialPosition: SubscriptionInitialPosition): Subscription[K] =
     self.copy(initialPosition = Some(initialPosition))
 
-//  def withProperties(properties: Map[String, String]): Subscription[K] =
-//    self.copy(properties = properties)
+  def withProperties(properties: Map[String, String]): Subscription[K] =
+    self.copy(properties = properties)
 }
 
 object Subscription:
@@ -193,7 +193,7 @@ final class ConsumerBuilder[T, S <: ConsumerConfigPart, K <: SubscriptionKind, M
         .fold(builder)(p => builder.subscriptionInitialPosition(p))
         .subscriptionType(subscription.`type`.asJava)
         .subscriptionName(subscription.name)
-//        .subscriptionProperties(subscription.properties.asJava)
+        .subscriptionProperties(subscription.properties.asJava)
     )
 
   def subscriptionTopicsMode(mode: RegexSubscriptionMode)(implicit ev: M =:= Regex): ConsumerBuilder[T, S, K, M] =
