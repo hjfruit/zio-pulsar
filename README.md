@@ -42,7 +42,6 @@ object SingleMessageExample extends ZIOAppDefault:
 
   val topic = "single-topic"
 
-  // To avoid frequent client creation, both the client's scope and the consumer/producer's scope should not use Scope.default
   // The client should be a long-term/on-demand object, while the consumer/producer is perishable after use
   val app: ZIO[PulsarClient & Scope, PulsarClientException, Unit] =
     for
