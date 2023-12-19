@@ -13,7 +13,7 @@ trait PulsarContainerSpec extends ZIOSpecDefault {
         Scope.default,
         testEnvironment,
         TestContainer.pulsar
-          .flatMap(a => PulsarClient.live(a.get.pulsarBrokerUrl()))
+          .flatMap(a => PulsarClient.live(PulsarClientConfig(a.get.pulsarBrokerUrl())))
           .orDie
       )
     )
