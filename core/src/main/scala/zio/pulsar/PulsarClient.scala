@@ -13,13 +13,13 @@ end PulsarClient
 object PulsarClient:
 
   def live(url: String, config: Map[String, Any] = Map.empty): URLayer[Scope, PulsarClient] =
-    val builder = JPulsarClient.builder().serviceUrl(url).loadConf(config.asJava)
-
     val cl = new PulsarClient {
-      val client = ZIO.attempt(builder.build).refineToOrDie[PulsarClientException]
+      val client = ZIO
+        .attempt(JPulsarClient.builder().serviceUrl(url).loadConf(config.asJava).build)
+        .refineToOrDie[PulsarClientException]
     }
 
-    ZLayer(ZIO.acquireRelease(ZIO.succeed(cl))(c => c.client.map(_.close()).orDie))
+    ZLayer(ZIO.acquireRelease(ZIO.succeed(cl))(c => c.client.map(_.close()).ignoreLogged))
   end live
 
   def live(host: String, port: Int): URLayer[Scope, PulsarClient] =

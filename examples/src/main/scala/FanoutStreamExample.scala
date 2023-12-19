@@ -5,7 +5,6 @@ import java.util.regex.Pattern
 
 import zio.*
 import zio.pulsar.*
-import zio.stm.*
 import zio.stream.*
 
 import org.apache.pulsar.client.api.{

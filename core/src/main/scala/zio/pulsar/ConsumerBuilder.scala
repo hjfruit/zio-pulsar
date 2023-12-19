@@ -7,7 +7,7 @@ import scala.jdk.CollectionConverters.*
 
 import zio.{ Duration, Scope, ZIO }
 import zio.pulsar.Properties.{ ConsumerProperties, StringProperties }
-import zio.pulsar.Property.StringProperty
+import zio.pulsar.StringProperty
 
 import org.apache.pulsar.client.api.{
   BatchReceivePolicy as JBatchReceivePolicy,
@@ -102,7 +102,7 @@ final class ConsumerBuilder[T, S <: ConsumerConfigPart, K <: SubscriptionKind, M
   import SubscriptionKind._
   import SubscriptionMode._
 
-  def loadConf(config: Property.Consumer[_], configs: Property.Consumer[_]*): ConsumerBuilder[T, S, K, M] =
+  def loadConf(config: ConsumerProperty[_], configs: ConsumerProperty[_]*): ConsumerBuilder[T, S, K, M] =
     new ConsumerBuilder(builder.loadConf(ConsumerProperties(config, configs.toList).getConfig.asJava))
 
   def properties(

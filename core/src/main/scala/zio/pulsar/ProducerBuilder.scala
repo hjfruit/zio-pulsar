@@ -7,8 +7,7 @@ import scala.jdk.CollectionConverters.*
 import zio.{ Scope, ZIO }
 import zio.pulsar.ProducerConfigPart.*
 import zio.pulsar.Properties.*
-import zio.pulsar.Properties.StringProperties
-import zio.pulsar.Property.StringProperty
+import zio.pulsar.StringProperty
 
 import org.apache.pulsar.client.api.{
   CompressionType,
@@ -20,11 +19,6 @@ import org.apache.pulsar.client.api.{
 }
 import org.apache.pulsar.client.api.interceptor.ProducerInterceptor
 
-/**
- * @author
- *   梦境迷离
- * @version 1.0,2023/2/14
- */
 object ProducerConfigPart:
   sealed trait Empty   extends ProducerConfigPart
   sealed trait ToTopic extends ProducerConfigPart
@@ -59,7 +53,7 @@ final class ProducerBuilder[T, S <: ProducerConfigPart] private (
   def blockIfQueueFull(blockIfQueueFull: Boolean): ProducerBuilder[T, S] =
     new ProducerBuilder(builder.blockIfQueueFull(blockIfQueueFull))
 
-  def loadConf(config: Property.Producer[_], configs: Property.Producer[_]*): ProducerBuilder[T, S] =
+  def loadConf(config: ProducerProperty[_], configs: ProducerProperty[_]*): ProducerBuilder[T, S] =
     new ProducerBuilder(builder.loadConf(ProducerProperties(config, configs.toList).getConfig.asJava))
 
   def properties(property: StringProperty, properties: StringProperty*): ProducerBuilder[T, S] =
