@@ -5,9 +5,7 @@ import java.io.IOException
 import zio.*
 import zio.pulsar.*
 
-import org.apache.pulsar.client.api.{ PulsarClientException, RegexSubscriptionMode, Schema as JSchema }
-
-import RegexSubscriptionMode.*
+import org.apache.pulsar.client.api.{ RegexSubscriptionMode, Schema as JSchema }
 
 object SingleMessageExample extends ZIOAppDefault:
 

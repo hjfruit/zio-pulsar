@@ -3,16 +3,14 @@ package examples
 import java.io.IOException
 
 import zio.*
-import zio.json.DeriveJsonCodec
-import zio.json.JsonCodec
+import zio.json.{ DeriveJsonCodec, JsonCodec }
 import zio.pulsar.*
 import zio.pulsar.json.*
 
-import org.apache.pulsar.client.api.{ PulsarClientException, RegexSubscriptionMode, Schema as JSchema }
+import org.apache.pulsar.client.api.RegexSubscriptionMode
+import org.apache.pulsar.client.api.RegexSubscriptionMode.*
 
-import com.sksamuel.avro4s.{ AvroSchema, SchemaFor }
-
-import RegexSubscriptionMode.*
+import com.sksamuel.avro4s.SchemaFor
 
 case class User(email: String, name: Option[String], age: Int)
 

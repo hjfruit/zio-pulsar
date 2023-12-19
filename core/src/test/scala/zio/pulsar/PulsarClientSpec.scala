@@ -7,18 +7,10 @@ import zio.*
 import zio.json.*
 import zio.pulsar.json.*
 import zio.test.*
-import zio.test.{ assertZIOImpl, suite, test }
 import zio.test.Assertion.*
-import zio.test.Assertion.{ assertion, equalTo }
 import zio.test.TestAspect.sequential
-import zio.test.junit.JUnitRunnableSpec
 
-import org.apache.pulsar.client.api.{
-  BatchReceivePolicy,
-  PulsarClientException,
-  RegexSubscriptionMode,
-  Schema as JSchema
-}
+import org.apache.pulsar.client.api.{ BatchReceivePolicy, PulsarClientException, Schema as JSchema }
 
 object PulsarClientSpec extends PulsarContainerSpec:
 
@@ -123,7 +115,7 @@ object PulsarClientSpec extends PulsarContainerSpec:
                             .build
         productBuilder <- ProducerBuilder.make(JsonSchema.jsonSchema[Order])
         producer       <- productBuilder.topic(topic).build
-        _              <- ZIO.foreach(0 to 10)(_ => producer.send(message))
+        _              <- ZIO.foreachDiscard(0 to 10)(_ => producer.send(message))
         ms             <- consumer.batchReceiveStream.runCollect
       yield assertTrue(ms.size == 10)
     }

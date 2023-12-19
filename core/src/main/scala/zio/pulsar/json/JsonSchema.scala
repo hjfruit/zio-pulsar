@@ -7,7 +7,7 @@ import scala.reflect.*
 import zio.json.*
 
 import org.apache.pulsar.client.api.Schema
-import org.apache.pulsar.client.impl.schema.{ JSONSchema, SchemaInfoImpl }
+import org.apache.pulsar.client.impl.schema.SchemaInfoImpl
 import org.apache.pulsar.common.schema.{ SchemaInfo, SchemaType }
 
 import com.sksamuel.avro4s.{ AvroSchema, SchemaFor }

@@ -1,30 +1,19 @@
 package zio.pulsar
 
-import java.time.LocalDate
 import java.util
 
 import scala.jdk.CollectionConverters.*
 
 import zio.*
 import zio.json.*
-import zio.pulsar.PulsarAdminClientSpec.MockAuthenticationSecret
-import zio.pulsar.PulsarClientSpec.Order
 import zio.pulsar.admin.{ AdminConfigPart, PulsarAdminClient }
 import zio.pulsar.admin.AdminConfigPart.ConfigComplete
 import zio.pulsar.json.*
 import zio.test.*
 import zio.test.Assertion.*
 import zio.test.TestAspect.sequential
-import zio.test.junit.JUnitRunnableSpec
 
-import org.apache.pulsar.client.api.{
-  Authentication,
-  AuthenticationDataProvider,
-  EncodedAuthenticationParameterSupport,
-  PulsarClientException,
-  RegexSubscriptionMode,
-  Schema as JSchema
-}
+import org.apache.pulsar.client.api.{ Authentication, EncodedAuthenticationParameterSupport }
 
 import com.dimafeng.testcontainers.PulsarContainer
 

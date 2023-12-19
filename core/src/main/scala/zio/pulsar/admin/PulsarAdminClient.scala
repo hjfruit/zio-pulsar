@@ -9,12 +9,6 @@ import zio.pulsar.admin.AdminConfigPart.{ ConfigComplete, Empty, ServiceUrl }
 import org.apache.pulsar.client.admin.{ PulsarAdmin as JPulsarAdmin, PulsarAdminBuilder as JAdminBuilder }
 import org.apache.pulsar.client.api.{ Authentication, PulsarClientException }
 
-/**
- * @author
- *   梦境迷离
- * @version 1.0,2023/2/17
- */
-
 sealed trait AdminConfigPart
 
 object AdminConfigPart:

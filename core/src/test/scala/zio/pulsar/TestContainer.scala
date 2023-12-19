@@ -1,11 +1,8 @@
 package zio.pulsar
 
-import zio._
-
-import org.testcontainers.utility.DockerImageName
+import zio.*
 
 import com.dimafeng.testcontainers.PulsarContainer
-import com.dimafeng.testcontainers.SingleContainer
 
 object TestContainer {
 
