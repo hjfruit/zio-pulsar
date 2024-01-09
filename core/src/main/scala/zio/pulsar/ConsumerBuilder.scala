@@ -208,7 +208,7 @@ private[zio] final class ConsumerBuilder[T, S <: ConsumerConfigPart, K <: Subscr
   def cryptoFailureAction(action: ConsumerCryptoFailureAction): ConsumerBuilder[T, S, K, M] =
     new ConsumerBuilder(builder.cryptoFailureAction(action))
 
-  def build(implicit ev: S =:= ConfigComplete): ZIO[PulsarClient with Scope, PulsarClientException, Consumer[T]] =
+  def build(implicit ev: S =:= ConfigComplete): ZIO[Scope, PulsarClientException, Consumer[T]] =
     val consumer = ZIO.attempt(new Consumer(builder.subscribe)).refineToOrDie[PulsarClientException]
     ZIO.acquireRelease(consumer)(p => ZIO.attempt(p.consumer.close()).orDie)
 
