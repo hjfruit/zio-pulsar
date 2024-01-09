@@ -77,8 +77,12 @@ private[zio] final class ProducerBuilder[T, S <: ProducerConfigPart](
   def build(implicit
     ev: S =:= ConfigComplete
   ): ZIO[Scope, PulsarClientException, Producer[T]] =
-    val producer = ZIO.attempt(new Producer(builder.create())).refineToOrDie[PulsarClientException]
-    ZIO.acquireRelease(producer)(p => ZIO.attempt(p.producer.close()).orDie)
+    ZIO.acquireRelease(unsafeBuild)(p => ZIO.attempt(p.producer.close()).orDie)
+
+  def unsafeBuild(implicit
+    ev: S =:= ConfigComplete
+  ): ZIO[Any, PulsarClientException, Producer[T]] =
+    ZIO.attempt(new Producer(builder.create())).refineToOrDie[PulsarClientException]
 
 end ProducerBuilder
 
