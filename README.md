@@ -66,23 +66,20 @@ Injected using constructor:
 import zio.pulsar.ZioPulsar
 
 final case class UserService(zioPulsar: ZioPulsar) {
-  
-  def sendPulsar(): ZIO[Scope, PulsarClientException, Message[String]] = {
-      zioPulsar
-      .consumerBuilder(Schema.STRING)
+
+  def sendPulsar(): ZIO[Scope, PulsarClientException, Message[String]] =
+    zioPulsar
+      .consumerBuilder(JSchema.STRING)
       .flatMap(
-        _.topic(pulsarConfig.topicName)
-          .consumerName(pulsarConfig.consumerName)
-          .ackTimeout(pulsarConfig.ackTimeoutMills, TimeUnit.MILLISECONDS)
+        _.topic(topic)
           .subscription(
             Subscription(
-              name = pulsarConfig.subscribeName,
+              name = "zio-subscription",
               `type` = SubscriptionType.Shared
             )
           )
           .build
       )
-      .receive(10, TimeUnit.SECONDS)
-  }
+      .flatMap(_.receive(10, TimeUnit.SECONDS))
 }
 ```
