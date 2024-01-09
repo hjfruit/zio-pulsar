@@ -28,7 +28,8 @@ These dependencies are required in the project classpath (ZIO projects only need
 ```
 libraryDependencies ++= Seq(
   "dev.zio" %% "zio"         % zioVersion,
-  "dev.zio" %% "zio-streams" % zioVersion
+  "dev.zio" %% "zio-streams" % zioVersion,
+  "dev.zio" %% "zio-json"    % zioJsonVersion
 )
 ```
 
@@ -61,25 +62,26 @@ object SingleMessageExample extends ZIOAppDefault:
 
 ## Example 2
 
-Injected using constructor:
+If you need producer and consumer, or it is not convenient to propagate `R`, then we can use constructor injection:
 ```scala
 import zio.pulsar.ZioPulsar
 
 final case class UserService(zioPulsar: ZioPulsar) {
 
   def sendPulsar(): ZIO[Scope, PulsarClientException, Message[String]] =
-    zioPulsar
-      .consumerBuilder(JSchema.STRING)
-      .flatMap(
-        _.topic(topic)
-          .subscription(
-            Subscription(
-              name = "zio-subscription",
-              `type` = SubscriptionType.Shared
-            )
+    for {
+      consumerBuilder <- zioPulsar
+        .consumerBuilder(JSchema.STRING)
+      consumer        <- consumerBuilder
+        .topic(topic)
+        .subscription(
+          Subscription(
+            name = "zio-subscription",
+            `type` = SubscriptionType.Shared
           )
-          .build
-      )
-      .flatMap(_.receive(10, TimeUnit.SECONDS))
+        )
+        .build
+      msg             <- consumer.receive(10, TimeUnit.SECONDS)
+    } yield msg
 }
 ```

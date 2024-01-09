@@ -15,34 +15,36 @@ final case class UserService(zioPulsar: ZioPulsar) {
   val topic = "zio-topic"
 
   def sendPulsarNotCloseConsumer(): ZIO[Any, PulsarClientException, Message[String]] =
-    zioPulsar
-      .consumerBuilder(JSchema.STRING)
-      .flatMap(
-        _.topic(topic)
-          .subscription(
-            Subscription(
-              name = "zio-subscription",
-              `type` = SubscriptionType.Shared
-            )
-          )
-          .unsafeBuild
-      )
-      .flatMap(_.receive(10, TimeUnit.SECONDS))
+    for {
+      consumerBuilder <- zioPulsar
+                           .consumerBuilder(JSchema.STRING)
+      consumer        <- consumerBuilder
+                           .topic(topic)
+                           .subscription(
+                             Subscription(
+                               name = "zio-subscription",
+                               `type` = SubscriptionType.Shared
+                             )
+                           )
+                           .unsafeBuild
+      msg             <- consumer.receive(10, TimeUnit.SECONDS)
+    } yield msg
 
   def sendPulsar(): ZIO[Scope, PulsarClientException, Message[String]] =
-    zioPulsar
-      .consumerBuilder(JSchema.STRING)
-      .flatMap(
-        _.topic(topic)
-          .subscription(
-            Subscription(
-              name = "zio-subscription",
-              `type` = SubscriptionType.Shared
-            )
-          )
-          .build
-      )
-      .flatMap(_.receive(10, TimeUnit.SECONDS))
+    for {
+      consumerBuilder <- zioPulsar
+                           .consumerBuilder(JSchema.STRING)
+      consumer        <- consumerBuilder
+                           .topic(topic)
+                           .subscription(
+                             Subscription(
+                               name = "zio-subscription",
+                               `type` = SubscriptionType.Shared
+                             )
+                           )
+                           .build
+      msg             <- consumer.receive(10, TimeUnit.SECONDS)
+    } yield msg
 }
 
 object ZioPulsarExample extends ZIOAppDefault:
