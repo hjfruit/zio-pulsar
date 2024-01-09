@@ -32,7 +32,7 @@ libraryDependencies ++= Seq(
 )
 ```
 
-## Example1
+## Example 1
 ```scala
 object SingleMessageExample extends ZIOAppDefault:
 
@@ -57,4 +57,32 @@ object SingleMessageExample extends ZIOAppDefault:
     yield ()
 
   override def run = app.provideLayer(pulsarClient ++ Scope.default).exitCode
+```
+
+## Example 2
+
+Injected using constructor:
+```scala
+import zio.pulsar.ZioPulsar
+
+final case class UserService(zioPulsar: ZioPulsar) {
+  
+  def sendPulsar(): ZIO[Scope, PulsarClientException, Message[String]] = {
+      zioPulsar
+      .consumerBuilder(Schema.STRING)
+      .flatMap(
+        _.topic(pulsarConfig.topicName)
+          .consumerName(pulsarConfig.consumerName)
+          .ackTimeout(pulsarConfig.ackTimeoutMills, TimeUnit.MILLISECONDS)
+          .subscription(
+            Subscription(
+              name = pulsarConfig.subscribeName,
+              `type` = SubscriptionType.Shared
+            )
+          )
+          .build
+      )
+      .receive(10, TimeUnit.SECONDS)
+  }
+}
 ```
