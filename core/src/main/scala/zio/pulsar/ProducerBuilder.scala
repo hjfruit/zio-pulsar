@@ -28,7 +28,7 @@ end ProducerConfigPart
 
 sealed trait ProducerConfigPart
 
-final class ProducerBuilder[T, S <: ProducerConfigPart] private (
+private[zio] final class ProducerBuilder[T, S <: ProducerConfigPart](
   builder: JProducerBuilder[T]
 ):
 

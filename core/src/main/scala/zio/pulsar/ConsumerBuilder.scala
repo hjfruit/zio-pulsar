@@ -92,7 +92,7 @@ object ConsumerConfigPart:
   type ConfigComplete = Empty with Subscribed with ToTopic
 end ConsumerConfigPart
 
-final class ConsumerBuilder[T, S <: ConsumerConfigPart, K <: SubscriptionKind, M <: SubscriptionMode] private (
+private[zio] final class ConsumerBuilder[T, S <: ConsumerConfigPart, K <: SubscriptionKind, M <: SubscriptionMode](
   builder: JConsumerBuilder[T]
 ):
   self =>
