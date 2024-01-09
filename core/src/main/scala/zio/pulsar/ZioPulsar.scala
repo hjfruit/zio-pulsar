@@ -17,7 +17,7 @@ import org.apache.pulsar.client.api.{
  *   梦境迷离
  * @version 1.0,2024/1/9
  */
-final class Pulsar(pulsarClient: PulsarClient) {
+final class ZioPulsar(pulsarClient: PulsarClient) {
 
   def consumerBuilder[M](
     schema: Schema[M]
@@ -30,8 +30,8 @@ final class Pulsar(pulsarClient: PulsarClient) {
     pulsarClient.client.map(c => new ProducerBuilder(c.newProducer(schema)))
 }
 
-object Pulsar {
+object ZioPulsar {
 
-  val live: ZLayer[PulsarClient, Throwable, Pulsar] =
-    ZLayer.fromFunction((c: PulsarClient) => new Pulsar(c))
+  val live: ZLayer[PulsarClient, Throwable, ZioPulsar] =
+    ZLayer.fromFunction((c: PulsarClient) => new ZioPulsar(c))
 }
