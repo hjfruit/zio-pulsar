@@ -63,4 +63,4 @@ object PulsarClient:
   }
 
   def make: ZIO[PulsarClient, PulsarClientException, JPulsarClient] =
-    ZIO.environmentWithZIO[PulsarClient](_.get.client)
+    ZIO.serviceWithZIO[PulsarClient](_.client)

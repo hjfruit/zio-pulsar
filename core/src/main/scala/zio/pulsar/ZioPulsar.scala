@@ -32,6 +32,9 @@ final class ZioPulsar(pulsarClient: PulsarClient) {
 
 object ZioPulsar {
 
-  val live: ZLayer[PulsarClient, Throwable, ZioPulsar] =
-    ZLayer.fromFunction((c: PulsarClient) => new ZioPulsar(c))
+  val live: ZLayer[Scope with PulsarClientConfig, Throwable, ZioPulsar] = for {
+    config <- ZLayer.service[PulsarClientConfig]
+    layer  <- PulsarClient.live(config.get).map(e => ZEnvironment(new ZioPulsar(e.get)))
+  } yield layer
+
 }

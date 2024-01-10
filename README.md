@@ -64,24 +64,38 @@ object SingleMessageExample extends ZIOAppDefault:
 
 If you need producer and consumer, or it is not convenient to propagate `R`, then we can use constructor injection:
 ```scala
-import zio.pulsar.ZioPulsar
+object UserService {
+  val live = ZLayer.fromFunction(UserService.apply)
+}
 
 final case class UserService(zioPulsar: ZioPulsar) {
-
   def sendPulsar(): ZIO[Scope, PulsarClientException, Message[String]] =
     for {
       consumerBuilder <- zioPulsar
         .consumerBuilder(JSchema.STRING)
       consumer        <- consumerBuilder
-        .topic(topic)
+        .topic("zio-topic")
         .subscription(
           Subscription(
             name = "zio-subscription",
             `type` = SubscriptionType.Shared
           )
         )
-        .build
+        .build // or use `unsafeBuild` to not close the consumer
       msg             <- consumer.receive(10, TimeUnit.SECONDS)
     } yield msg
 }
+
+object ZioPulsarExample extends ZIOAppDefault:
+
+  val app: ZIO[UserService with Scope, IOException, Unit] = ZIO.serviceWithZIO[UserService](_.sendPulsar()).unit
+
+  override def run = app
+    .provide(
+      UserService.live,
+      ZioPulsar.live,
+      Scope.default,
+      ZLayer.succeed(PulsarClientConfig("pulsar://localhost:6650"))
+    )
+    .exitCode
 ```

@@ -49,13 +49,16 @@ final case class UserService(zioPulsar: ZioPulsar) {
 
 object ZioPulsarExample extends ZIOAppDefault:
 
-  val pulsarClient = PulsarClient.live("localhost", 6650)
-
-  val topic = "single-topic"
-
   val app: ZIO[UserService with Scope, IOException, Unit] =
     (ZIO.serviceWithZIO[UserService](_.sendPulsar()) *> ZIO.serviceWithZIO[UserService](
       _.sendPulsarNotCloseConsumer()
     )).unit
 
-  override def run = app.provide(UserService.live, ZioPulsar.live, Scope.default, pulsarClient).exitCode
+  override def run = app
+    .provide(
+      UserService.live,
+      ZioPulsar.live,
+      Scope.default,
+      ZLayer.succeed(PulsarClientConfig("pulsar://localhost:6650"))
+    )
+    .exitCode

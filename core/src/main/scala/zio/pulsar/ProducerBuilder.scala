@@ -89,9 +89,9 @@ end ProducerBuilder
 object ProducerBuilder:
 
   lazy val make: ZIO[PulsarClient, PulsarClientException, ProducerBuilder[Array[Byte], ProducerConfigPart.Empty]] =
-    ZIO.environmentWithZIO[PulsarClient](_.get.client).map(c => new ProducerBuilder(c.newProducer()))
+    ZIO.serviceWithZIO[PulsarClient](_.client).map(c => new ProducerBuilder(c.newProducer()))
 
   def make[M](
     schema: Schema[M]
   ): ZIO[PulsarClient, PulsarClientException, ProducerBuilder[M, ProducerConfigPart.Empty]] =
-    ZIO.environmentWithZIO[PulsarClient](_.get.client).map(c => new ProducerBuilder(c.newProducer(schema)))
+    ZIO.serviceWithZIO[PulsarClient](_.client).map(c => new ProducerBuilder(c.newProducer(schema)))

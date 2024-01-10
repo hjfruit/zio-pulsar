@@ -221,9 +221,9 @@ object ConsumerBuilder:
   lazy val make: ZIO[PulsarClient, PulsarClientException, ConsumerBuilder[Array[
     Byte
   ], ConsumerConfigPart.Empty, Nothing, Nothing]] =
-    ZIO.environmentWithZIO[PulsarClient](_.get.client).map(c => new ConsumerBuilder(c.newConsumer))
+    ZIO.serviceWithZIO[PulsarClient](_.client).map(c => new ConsumerBuilder(c.newConsumer))
 
   def make[M](
     schema: Schema[M]
   ): ZIO[PulsarClient, PulsarClientException, ConsumerBuilder[M, ConsumerConfigPart.Empty, Nothing, Nothing]] =
-    ZIO.environmentWithZIO[PulsarClient](_.get.client).map(c => new ConsumerBuilder(c.newConsumer(schema)))
+    ZIO.serviceWithZIO[PulsarClient](_.client).map(c => new ConsumerBuilder(c.newConsumer(schema)))
