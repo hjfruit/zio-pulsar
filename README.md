@@ -15,13 +15,13 @@ ZIO Pulsar
 
 Scala 3
 ```
-libraryDependencies += "io.github.jxnu-liguobin" %% "zio-pulsar" % <latest version>
+libraryDependencies += "io.github.jxnu-liguobin" %% "zio-pulsar" % "latest version"
 ```
 
 Scala 2.13.6+ (sbt 1.5.x)
 ```
 libraryDependencies += 
-  ("io.github.jxnu-liguobin" %% "zio-pulsar" % NewVersion).cross(CrossVersion.for2_13Use3)
+  ("io.github.jxnu-liguobin" %% "zio-pulsar" % "latest version").cross(CrossVersion.for2_13Use3)
 ```
 
 These dependencies are required in the project classpath (ZIO projects only need to pay attention to whether they have imported zio-streams):
@@ -88,7 +88,8 @@ final case class UserService(zioPulsar: ZioPulsar) {
 
 object ZioPulsarExample extends ZIOAppDefault:
 
-  val app: ZIO[UserService with Scope, IOException, Unit] = ZIO.serviceWithZIO[UserService](_.sendPulsar()).unit
+  val app: ZIO[UserService with Scope, IOException, Unit] = 
+    ZIO.serviceWithZIO[UserService](_.sendPulsar()).unit
 
   override def run = app
     .provide(
